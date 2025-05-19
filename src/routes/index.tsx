@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Routes, Route, Navigate } from "react-router";
 
 import Home from "../views/home";
+import Login from "../views/auth/login";
 
 export default function AppRoutes() {
     // using useContext to get value from AuthContext
@@ -15,6 +16,10 @@ export default function AppRoutes() {
         <Routes>
             {/* route "/" */}
             <Route path="/" element={<Home />}/>
+
+            {/* route "/login" */}
+            <Route path="/login" element={<Login />}/>
+
         </Routes>
     )
 }
