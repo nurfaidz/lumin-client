@@ -14,7 +14,7 @@ export const useLogin = () => {
         mutationFn: async (data: LoginRequest) => {
 
             // using service api for login
-            const response = await Api.post("/api/login",data);
+            const response = await Api.post("/login",data);
 
             // return response data
             return response.data;

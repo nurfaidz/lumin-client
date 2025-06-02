@@ -15,7 +15,7 @@ export const useRegister = () => {
         // mutation for register
         mutationFn: async (data: RegisterRequest) => {
             // using service api for register
-            const response = await Api.post("/api/register", data);
+            const response = await Api.post("/register", data);
 
             // return response data
             return response.data;

@@ -1,34 +1,72 @@
-import { FC, useState } from "react";
-import { Link } from "react-router";
+import { FC, useState, useContext, FormEvent } from "react";
+import { useNavigate } from "react-router";
+import { useLogin } from "../../hooks/auth/useLogin";
+import Cookies from "js-cookie";
+import { AuthContext } from "../../context/AuthContext";
+
+interface ValidationErrors {
+    [key: string]: string;
+}
 
 const Login: FC = () => {
+
+  // Initialize navigate and useLogin hook
+  const navigate = useNavigate();
+
+  // Using useLogin hook to handle login mutation
+  const {mutate, isPending} = useLogin();
+
+  // Using AuthContext to manage authentication state
+  const { setIsAuthenticated } = useContext(AuthContext)!;
+
+  // Define state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+
+  // const [loading, setLoading] = useState(false);
+  const [errors, setError] = useState<ValidationErrors>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!username || !password) {
-      setError("Please fill in all fields");
-      return;
-    }
+    setError({});
 
-    try {
-      setLoading(true);
-      setError("");
+    mutate({
+        username,
+        password
+    }, {
+        onSuccess: (data: any) => {
+            // Set token to cookies
+            Cookies.set("token", data.data.token);
 
-      console.log("Logging in...");
+            // Set user to cookies
+            Cookies.set("user", JSON.stringify({
+                id: data.data.id,
+                name: data.data.name,
+                username: data.data.username,
+                email: data.data.email
+            }));
 
-      // Simulate an API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    } catch (err) {
-      setError("Invalid email or password");
-      console.error("Login error:", err);
-    } finally {
-      setLoading(false);
-    }
+            // Set isAuthenticated to true
+            setIsAuthenticated(true);
+
+            // redirect to dashboard
+            navigate("/admin/dashboard");
+        },
+        onError: (error: any) => {
+        console.log(error.response?.data?.message, error);
+            if (error.response?.data?.data) {
+                console.log('masuk sini 1');
+                setError(error.response.data.data);
+            } else if (error.response?.data?.message) {
+                console.log('anjay');
+                setError({general: error.response.data.message});
+            } else {
+                console.log('masuk sini');
+                setError({general: "Registration failed. Please try again."});
+            }
+        }
+    })
   };
 
   return (
@@ -39,9 +77,9 @@ const Login: FC = () => {
             <p className="text-gray-600">Sign in to your account</p>
         </div>
 
-        {error && (
+        {errors.general && (
             <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
-                {error}
+                {errors.general}
             </div>
         )}
 
@@ -55,8 +93,13 @@ const Login: FC = () => {
                     onChange={(e) => setUsername(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter your username"
-                    disabled={loading}
+                    disabled={isPending}
                     />
+                {errors.Username && (
+                            <div className="mt-2 p-2 bg-red-100 text-red-700 rounded text-sm">
+                                {errors.Username}
+                            </div>
+                        )}
             </div>
 
             <div className="mb-6">
@@ -75,23 +118,28 @@ const Login: FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter your password"
-                    disabled={loading}
+                    disabled={isPending}
                     />
+                {errors.Password && (
+                            <div className="mt-2 p-2 bg-red-100 text-red-700 rounded text-sm">
+                                {errors.Password}
+                            </div>
+                        )}
             </div>
 
             <button
                 type="submit"
-                disabled={loading}
+                disabled={isPending}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 ease-in-out disabled:opacity-70"
                 >
-                    {loading ? "Signing in..." : "Sign In"}
+                    {isPending ? "Signing in..." : "Sign In"}
                 </button>
         </form>
 
         <div className="mt-6 text-center">
             <p className="text-gray-600">
                 Don't have an account?{""}
-                <a href="#" className="text-blue-600 hover:text-blue-800 font-medium">
+                <a href="/register" className="text-blue-600 hover:text-blue-800 font-medium">
                     Sign Up
                 </a>
             </p>
