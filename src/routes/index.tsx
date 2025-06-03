@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from "react-router";
 import Home from "../views/home";
 import Login from "../views/auth/login";
 import Register from "../views/auth/register";
+import Dashboard from "../views/dashboard";
 
 export default function AppRoutes() {
     // using useContext to get value from AuthContext
@@ -23,6 +24,9 @@ export default function AppRoutes() {
 
             {/* route "/register" */}
             <Route path="/register" element={<Register />}/>
+
+            {/* route "/admin/dashboard" */}
+            <Route path="/admin/dashboard" element={<Dashboard />}/>
 
         </Routes>
     )

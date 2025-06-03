@@ -44,12 +44,12 @@ const Home: FC = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 ease-in-out">
-                Learn More
-              </button>
-              <button className="bg-white hover:bg-gray-100 text-blue-600 font-medium py-2 px-6 border border-blue-600 rounded-lg transition duration-200 ease-in-out">
-                Contact Us
-              </button>
+              <a href="/login" className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 ease-in-out">
+                Sign In
+              </a>
+              <a href="/register" className="bg-white hover:bg-gray-100 text-blue-600 font-medium py-2 px-6 border border-blue-600 rounded-lg transition duration-200 ease-in-out">
+                Sign Up
+              </a>
             </div>
           </div>
         </div>

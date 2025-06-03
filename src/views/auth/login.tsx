@@ -55,15 +55,18 @@ const Login: FC = () => {
         },
         onError: (error: any) => {
         console.log(error.response?.data?.message, error);
-            if (error.response?.data?.data) {
-                console.log('masuk sini 1');
-                setError(error.response.data.data);
-            } else if (error.response?.data?.message) {
-                console.log('anjay');
-                setError({general: error.response.data.message});
+            if (error.response?.status === 422) {
+                if (error.response.data?.data && typeof error.response.data.data === 'object') {
+                    setError(error.response.data.data);
+                } else {
+                    setError({general: "Validation failed. Please check your input."});
+                }
+            } else if (error.response?.status === 401) {
+                const message = error.response.data?.message || "Invalid credentials";
+                setError({general: message});
             } else {
-                console.log('masuk sini');
-                setError({general: "Registration failed. Please try again."});
+                const message = error.response?.data?.message || "Login failed. Please try again.";
+                setError({general: message});
             }
         }
     })
@@ -107,9 +110,6 @@ const Login: FC = () => {
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                         Password
                     </label>
-                    <a href="#" className="text-sm text-blue-600 hover:text-blue-800">
-                        Forgot Password?
-                    </a>
                 </div>
                 <input
                     type="password"
