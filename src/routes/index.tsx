@@ -14,6 +14,10 @@ export default function AppRoutes() {
     // using optional chaining to avoid error if auth is null
     // const isAuthenticated = auth?.isAuthenticated ?? false;
 
+    const auth = useContext(AuthContext);
+
+    const isAuthenticated = auth?.isAuthenticated ?? false;
+
     return (
         <Routes>
             {/* route "/" */}
@@ -26,7 +30,9 @@ export default function AppRoutes() {
             <Route path="/register" element={<Register />}/>
 
             {/* route "/admin/dashboard" */}
-            <Route path="/admin/dashboard" element={<Dashboard />}/>
+            <Route path="/admin/dashboard" element={
+                isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace/>
+            }/>
 
         </Routes>
     )
