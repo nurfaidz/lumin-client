@@ -9,20 +9,20 @@ export interface User {
     email: string;
 }
 
-export const useUsers = () => {
-    return useQuery<User[], Error>({
-        queryKey: ["users"],
+export const useUserById = (id: number) => {
+    return useQuery<User, Error>({
+        queryKey: ["user", "id"],
 
         queryFn: async () => {
             const token = Cookies.get('token');
 
-            const response = await Api.get('/api/users', {
+            const response = await Api.get('/api/users/${id}', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            return response.data.data as User[];
-        },
-    });
+            return response.data.data as User;
+        }
+    })
 }
