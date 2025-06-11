@@ -8,8 +8,8 @@ const SidebarMenu: FC = () => {
 
     return (
         <div className="bg-white border-0 rounded-lg shadow-sm">
-            <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-800">MAIN MENU</h2>
+            <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-500 to-blue-600">
+                <h2 className="text-lg font-semibold text-white">MAIN MENU</h2>
             </div>
             <div className="px-6 py-4">
                 <div className="space-y-2">

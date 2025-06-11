@@ -16,7 +16,7 @@ export const useUsers = () => {
         queryFn: async () => {
             const token = Cookies.get('token');
 
-            const response = await Api.get('/api/users', {
+            const response = await Api.get('/users', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

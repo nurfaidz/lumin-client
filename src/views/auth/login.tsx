@@ -54,7 +54,6 @@ const Login: FC = () => {
             navigate("/admin/dashboard");
         },
         onError: (error: any) => {
-        console.log(error.response?.data?.message, error);
             if (error.response?.status === 422) {
                 if (error.response.data?.data && typeof error.response.data.data === 'object') {
                     setError(error.response.data.data);

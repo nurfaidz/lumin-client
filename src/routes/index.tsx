@@ -6,6 +6,8 @@ import Home from "../views/home";
 import Login from "../views/auth/login";
 import Register from "../views/auth/register";
 import Dashboard from "../views/dashboard";
+import UsersIndex from "../views/admin/user";
+import UserCreate from "../views/admin/user/create";
 
 export default function AppRoutes() {
     // using useContext to get value from AuthContext
@@ -32,6 +34,16 @@ export default function AppRoutes() {
             {/* route "/admin/dashboard" */}
             <Route path="/admin/dashboard" element={
                 isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace/>
+            }/>
+
+            {/* route "/admin/users" */}
+            <Route path="/admin/users" element={
+                isAuthenticated ? <UsersIndex /> : <Navigate to="/login" replace/>
+            }/>
+
+            {/* route "/admin/users/create" */}
+            <Route path="/admin/users/create" element={
+                isAuthenticated ? <UserCreate /> : <Navigate to="/login" replace/>
             }/>
 
         </Routes>

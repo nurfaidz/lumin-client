@@ -14,7 +14,9 @@ export const useUserCreate = () => {
         mutationFn: async (user: UserRequest) => {
             const token = Cookies.get('token');
 
-            const response = await Api.post('/api/users', user. {
+            console.log(token);
+
+            const response = await Api.post('/users', user, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
