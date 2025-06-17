@@ -7,7 +7,7 @@ export const useUserDelete = () => {
         mutationFn: async (id: number) => {
             const token = Cookies.get('token');
 
-            const response = await Api.delete(`/api/users/${id}`, {
+            const response = await Api.delete(`/users/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

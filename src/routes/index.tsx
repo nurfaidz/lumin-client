@@ -8,6 +8,7 @@ import Register from "../views/auth/register";
 import Dashboard from "../views/dashboard";
 import UsersIndex from "../views/admin/user";
 import UserCreate from "../views/admin/user/create";
+import UserEdit from "../views/admin/user/edit";
 
 export default function AppRoutes() {
     // using useContext to get value from AuthContext
@@ -45,6 +46,11 @@ export default function AppRoutes() {
             <Route path="/admin/users/create" element={
                 isAuthenticated ? <UserCreate /> : <Navigate to="/login" replace/>
             }/>
+
+            {/* route "/admin/users/:id/edit" */}
+            <Route path="/admin/users/:id/edit" element={
+                isAuthenticated ? <UserEdit /> : <Navigate to="/login" replace/>
+            } />
 
         </Routes>
     )

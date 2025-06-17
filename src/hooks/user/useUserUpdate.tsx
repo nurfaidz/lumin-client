@@ -14,7 +14,7 @@ export const useUserUpdate = () => {
         mutationFn: async ({id, data}: {id: number, data: UserRequest}) => {
             const token = Cookies.get('token');
 
-            const response = await Api.put(`/api/users/${id}`, data, {
+            const response = await Api.put(`/users/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
